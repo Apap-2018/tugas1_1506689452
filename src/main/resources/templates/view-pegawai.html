@@ -8,21 +8,18 @@
 <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 <style>
 		td{
-	    border: 1px solid #dddddd;
-	    text-align: left;
-	    padding: 8px;
+		    border: 1px solid #D3D3D3;
+		    text-align: left;
+		    padding: 10px;
 		}
-	</style>
+</style>
 </head>
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar(title='Info Pegawai')"></nav>
-	<!-- 
 	<div style="padding: 16px">
-	</div>
-	 -->
 	<br>
-	<h3 th:text="'Lihat Data Pegawai ' + ${pegawai.nip}"></h3>
+	<h3 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h3>
 	<br>
 	<table>
 		<tr>
@@ -46,20 +43,19 @@
 			<td th:text="${pegawai.tahun_masuk}"></td>
 		</tr>
 		<tr>
-			<td>Nama Instansi</td>
-			<td th:text="${pegawai.instansi.nama}"></td>
-		</tr>
+            <td>Nama Instansi</td>
+            <td th:text="${pegawai.instansi.nama}+' - '+${pegawai.instansi.provinsi.nama}"></td>
+        </tr>
 		<tr>
-			<td>NPM</td>
-			<td th:text="${pegawai.nip}"></td>
-		</tr>
-		<tr>
-			<td>Jabatan</td>	
-			<td>
-			<th:block th:each="jabatan : ${jabatanPegawai}">
-				<p th:text="${jabatan.nama}"></p>		
-			</td>
-		</tr>
+            <td>Jabatan</td>
+            <td >
+                <ul>
+                    <li th:each="jabatan : ${jPegawai}">
+                        <span th:text="${jabatan.nama}"></span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
 		<tr>
 			<td>Gaji</td>
 			<td th:text="'Rp ' + ${gaji}"></td>
@@ -67,6 +63,6 @@
 		
 	</table>
 	<br>
-
+	</div>
 </body>
 </html>
