@@ -32,8 +32,8 @@ public class PegawaiController {
 	private String viewPegawai(@RequestParam("nip") String nip, Model model) {
 		PegawaiModel pegawai = pegawaiService.getPegawaiDetailByNIP(nip);
 		List<JabatanModel> jPegawai = pegawai.getJabatan();
-		double gaji = jPegawai.get(0).getGaji_pokok() + 
-					(jPegawai.get(0).getGaji_pokok() * pegawai.getInstansi().getProvinsi().getPresentase_tunjangan()/100);
+		int gaji = (int) (jPegawai.get(0).getGaji_pokok() + 
+					(jPegawai.get(0).getGaji_pokok() * (pegawai.getInstansi().getProvinsi().getPresentase_tunjangan()/100)));
 		
 		model.addAttribute("pegawai", pegawai);
 		model.addAttribute("jPegawai", jPegawai);

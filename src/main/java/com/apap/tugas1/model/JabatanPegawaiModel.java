@@ -32,6 +32,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class JabatanPegawaiModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

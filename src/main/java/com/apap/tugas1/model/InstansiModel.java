@@ -28,6 +28,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class InstansiModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private long id;
 	
 	@NotNull

@@ -2,7 +2,6 @@ package com.apap.tugas1.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,8 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +29,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class JabatanModel implements Serializable, Comparable<JabatanModel> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private long id;
 	
 	@NotNull
@@ -41,11 +39,10 @@ public class JabatanModel implements Serializable, Comparable<JabatanModel> {
 	
 	@NotNull
 	@Size(max = 255)
-	@Column(name = "deksirpsi", nullable = false)
+	@Column(name = "deskripsi", nullable = false)
 	private String deskripsi;
 	
 	@NotNull
-	@Size(max = 50)
 	@Column(name = "gaji_pokok", nullable = false)
 	private double gaji_pokok;
 	
