@@ -44,6 +44,27 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-header">
+					Lihat Detail Jabatan
+				</div>
+				<form th:action="@{/jabatan/view}" th:object="${jabatan}" method="GET">
+					<div class="card-body">
+						<label for="pilihJabatan">Pilih Jabatan</label>
+						<select class="form-control">
+					    	<option th:each="jabatan : ${jabatans}" th:value="${jabatan.id}" th:text="${jabatan.nama}">
+					    	</option>
+						</select>
+						<p></p>
+						<button type="submit" class="btn btn-primary">Lihat</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 </body>
