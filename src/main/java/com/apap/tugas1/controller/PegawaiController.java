@@ -5,8 +5,7 @@ import java.util.List;
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.service.PegawaiService;
-
-import java.util.Optional;
+import com.apap.tugas1.service.JabatanService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PegawaiController {
 	@Autowired
 	private PegawaiService pegawaiService;
+	
+	@Autowired
+	private JabatanService jabatanService;
 
-	@RequestMapping("/")
-	private String home() {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	private String home(Model model) {
+		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
+		model.addAttribute("listJabatan", listJabatan);
 		return "home";
 	}
 	

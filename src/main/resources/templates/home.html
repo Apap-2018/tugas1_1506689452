@@ -51,11 +51,12 @@
 				<div class="card-header">
 					Lihat Detail Jabatan
 				</div>
-				<form th:action="@{/jabatan/view}" th:object="${jabatan}" method="GET">
+				<form th:action="@{/jabatan/view}" method="GET">
 					<div class="card-body">
-						<label for="pilihJabatan">Pilih Jabatan</label>
-						<select class="form-control">
-					    	<option th:each="jabatan : ${jabatans}" th:value="${jabatan.id}" th:text="${jabatan.nama}">
+						<label for="id">Pilih Jabatan</label>
+						<select class="form-control" name="id">
+							<option value="">-</option>
+					    	<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}">
 					    	</option>
 						</select>
 						<p></p>
@@ -65,6 +66,7 @@
 			</div>
 		</div>
 	</div>
+	<br>
 </div>
 
 </body>

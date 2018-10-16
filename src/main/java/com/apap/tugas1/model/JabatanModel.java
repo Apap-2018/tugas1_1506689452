@@ -29,7 +29,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class JabatanModel implements Serializable, Comparable<JabatanModel> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "id")
 	private long id;
 	
 	@NotNull
@@ -52,14 +52,14 @@ public class JabatanModel implements Serializable, Comparable<JabatanModel> {
                 CascadeType.MERGE
             },
             mappedBy = "jabatan")
-    private List<PegawaiModel> jabatan_pegawai;
+    private List<PegawaiModel> pegawai;
 	
-	public List<PegawaiModel> getJabatan_pegawai() {
-		return jabatan_pegawai;
+	public List<PegawaiModel> getPegawai() {
+		return pegawai;
 	}
 
-	public void setJabatan_pegawai(List<PegawaiModel> jabatan_pegawai) {
-		this.jabatan_pegawai = jabatan_pegawai;
+	public void setPegawai(List<PegawaiModel> pegawai) {
+		this.pegawai = pegawai;
 	}
 
 	@Override

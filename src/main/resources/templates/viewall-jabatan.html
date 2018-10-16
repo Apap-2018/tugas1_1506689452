@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Daftar Semua Jabatan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" align="center">
+                    Lihat Semua Jabatan
+                </div>
+                <div class="card-body">
+                    <table id="listJabatan" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Deskripsi</th>
+                            <th>Gaji Pokok</th>
+                            <th>Jumlah Pegawai</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="jabatan : ${listJabatan}">
+                            <tr>
+                                <td th:text="${jabatan.nama}"></td>
+                                <td th:text="${jabatan.deskripsi}"></td>
+                                <td>Rp <span th:text="${#numbers.formatDecimal(jabatan.gaji_pokok, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                                <td th:text="${jabatan.getPegawai().size()}"></td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<script>
+    $(document).ready(function() {
+        $('#listJabatan').DataTable();
+    } );
+</script>
+</body>
+</html>

@@ -7,5 +7,5 @@ import com.apap.tugas1.model.JabatanModel;
 
 @Repository
 public interface JabatanDb extends JpaRepository<JabatanModel, Long>{
-	
+	JabatanModel getDetailById(Long id);
 }

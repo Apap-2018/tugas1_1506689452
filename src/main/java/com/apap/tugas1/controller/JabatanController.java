@@ -7,8 +7,6 @@ import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.service.JabatanService;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,14 +38,41 @@ public class JabatanController {
 	}
 	
 	@RequestMapping(value = "/jabatan/view", method = RequestMethod.GET)
-	private String viewJabatan(Model model) {
-//		JabatanModel jabatan = new JabatanModel();
-//		model.addAttribute("jabatan", jabatan);
-//		List<JabatanModel> jabatan = new ArrayList<>();
-//		model.addAttribute("jabatan", jabatan);
-//		JabatanModel jabatan = jabatanService.getDetailById(id);
-		List<JabatanModel> jabatans = jabatanService.getAllJabatan();
-		model.addAttribute("jabatans", jabatans);
+	private String viewJabatan(@RequestParam("id") Long id, Model model) {
+		JabatanModel jabatan = jabatanService.getDetailById(id);
+		model.addAttribute("jabatan", jabatan);
 		return "view-jabatan";
+	}
+	
+	@RequestMapping(value = "/jabatan/viewall", method = RequestMethod.GET)
+	 private String viewAllJabatan(Model model) {
+		 List<JabatanModel> listJabatan = jabatanService.getAllJabatan(); 
+		 model.addAttribute("listJabatan", listJabatan);
+		 return "viewall-jabatan";
+	 }
+	
+	@RequestMapping(value = "/jabatan/ubah", method = RequestMethod.GET)
+    private String update(@RequestParam("id") Long id, Model model) {
+		JabatanModel jabatan = jabatanService.getDetailById(id);
+		model.addAttribute("jabatan", jabatan);
+        return "update-jabatan";
+    }
+
+    @RequestMapping(value = "/jabatan/ubah", method = RequestMethod.POST)
+    private String updateSubmit(@ModelAttribute JabatanModel jabatan, BindingResult result, RedirectAttributes redirectAttrs) {
+    	jabatan.setId(jabatan.getId());
+    	jabatanService.updateJabatan(jabatan);
+    	redirectAttrs.addFlashAttribute("message", "Jabatan berhasil diubah");
+        return "redirect:/jabatan/view?id=" + jabatan.getId();
+    }
+    
+    @RequestMapping(value = "/jabatan/hapus", method = RequestMethod.POST)
+	private String delete(@RequestParam(value = "id") Long id, Model model) {
+		try {
+			jabatanService.removeJabatan(id);
+			return "deleted";
+		} catch (Exception e) {
+			return "delete-fail";
+		}	
 	}
 }
