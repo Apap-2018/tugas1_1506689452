@@ -2,6 +2,8 @@ package com.apap.tugas1.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -89,4 +91,14 @@ public class InstansiModel implements Serializable{
 	public void setDeskripsi(String deskripsi) {
 		this.deskripsi = deskripsi;
 	}
+	
+	public PegawaiModel getPegawaiTermuda() {
+        Collections.sort(this.instansi_pegawai, Comparator.comparing(PegawaiModel::getTanggal_lahir));
+        return this.instansi_pegawai.get(instansi_pegawai.size()-1);
+    }
+
+    public PegawaiModel getPegawaiTertua() {
+    	Collections.sort(this.instansi_pegawai, Comparator.comparing(PegawaiModel::getTanggal_lahir));
+        return this.instansi_pegawai.get(0);
+    }
 }

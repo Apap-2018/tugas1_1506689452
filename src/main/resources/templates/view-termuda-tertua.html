@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Detail Pegawai Termuda-Tertua</title>
+    
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<style>
+		td{
+		    border: 1px solid #D3D3D3;
+		    text-align: left;
+		    padding: 10px;
+		}
+</style>
+</head>
+
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<br>
+	<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" align="center">
+                    Data Pegawai Termuda
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered" style="width:100%">
+                        <tbody>
+                        <tr>
+                            <td><b>NIP</b></td>
+                            <td th:text="${pegawaiTermuda.nip}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nama</b></td>
+                            <td th:text="${pegawaiTermuda.nama}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tempat Lahir</b></td>
+                            <td th:text="${pegawaiTermuda.tempat_lahir}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tanggal Lahir</b></td>
+                            <td th:text="${pegawaiTermuda.tanggal_lahir}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tahun Masuk</b></td>
+                            <td th:text="${pegawaiTermuda.tahun_masuk}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nama Instansi</b></td>
+                            <td th:text="${pegawaiTermuda.instansi.nama}+' - '+${pegawaiTermuda.instansi.provinsi.nama}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Jabatan</b></td>
+                            <td>
+				                <ul>
+				                    <li th:each="jabatan : ${jPegawaiTermuda}">
+				                        <span th:text="${jabatan.nama}"></span>
+				                    </li>
+				                </ul>
+				            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Gaji</b></td>
+                            <td>Rp <span th:text="${#numbers.formatDecimal(gajiPegawaiTermuda, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" align="center">
+                    Data Pegawai Tertua
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered" style="width:100%">
+                        <tbody>
+                        <tr>
+                            <td><b>NIP</b></td>
+                            <td th:text="${pegawaiTertua.nip}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nama</b></td>
+                            <td th:text="${pegawaiTertua.nama}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tempat Lahir</b></td>
+                            <td th:text="${pegawaiTertua.tempat_lahir}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tanggal Lahir</b></td>
+                            <td th:text="${pegawaiTertua.tanggal_lahir}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Tahun Masuk</b></td>
+                            <td th:text="${pegawaiTertua.tahun_masuk}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nama Instansi</b></td>
+                            <td th:text="${pegawaiTertua.instansi.nama}+' - '+${pegawaiTertua.instansi.provinsi.nama}"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Jabatan</b></td>
+                            <td>
+				                <ul>
+				                    <li th:each="jabatan : ${jPegawaiTertua}">
+				                        <span th:text="${jabatan.nama}"></span>
+				                    </li>
+				                </ul>
+				            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Gaji</b></td>
+                            <td>Rp <span th:text="${#numbers.formatDecimal(gajiPegawaiTertua, 0, 'COMMA', 0, 'POINT')}"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

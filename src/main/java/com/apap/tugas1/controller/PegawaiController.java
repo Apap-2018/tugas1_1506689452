@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
+import com.apap.tugas1.model.InstansiModel;
 import com.apap.tugas1.service.PegawaiService;
 import com.apap.tugas1.service.JabatanService;
+import com.apap.tugas1.service.InstansiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +26,16 @@ public class PegawaiController {
 	
 	@Autowired
 	private JabatanService jabatanService;
+	
+	@Autowired
+	private InstansiService instansiService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	private String home(Model model) {
 		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
 		model.addAttribute("listJabatan", listJabatan);
+		List<InstansiModel> listInstansi = instansiService.getAllInstansi();
+		model.addAttribute("listInstansi", listInstansi);
 		return "home";
 	}
 	
@@ -44,4 +51,30 @@ public class PegawaiController {
 		model.addAttribute("gaji", gaji);
 		return "view-pegawai";
 	}
+	
+	@RequestMapping(value = "/pegawai/termuda-tertua", method = RequestMethod.GET)
+    public String viewTermudaTertua(@RequestParam("id") Long id, Model model){
+        InstansiModel instansi = instansiService.getDetailById(id);
+
+        PegawaiModel pegawaiTermuda = instansi.getPegawaiTermuda();
+        PegawaiModel pegawaiTertua = instansi.getPegawaiTertua();
+        
+        List<JabatanModel> jPegawaiTermuda = pegawaiTermuda.getJabatan();
+        List<JabatanModel> jPegawaiTertua = pegawaiTertua.getJabatan();
+        
+        int gajiPegawaiTermuda = (int) (jPegawaiTermuda.get(0).getGaji_pokok() +
+        					(jPegawaiTermuda.get(0).getGaji_pokok() * (pegawaiTermuda.getInstansi().getProvinsi().getPresentase_tunjangan()/100)));
+        
+        int gajiPegawaiTertua = (int) (jPegawaiTertua.get(0).getGaji_pokok() +
+				(jPegawaiTertua.get(0).getGaji_pokok() * (pegawaiTertua.getInstansi().getProvinsi().getPresentase_tunjangan()/100)));
+
+        model.addAttribute("pegawaiTermuda", pegawaiTermuda);
+        model.addAttribute("jPegawaiTermuda", jPegawaiTermuda);
+        model.addAttribute("gajiPegawaiTermuda", gajiPegawaiTermuda);
+
+        model.addAttribute("pegawaiTertua", pegawaiTertua);
+        model.addAttribute("jPegawaiTertua", jPegawaiTertua);
+        model.addAttribute("gajiPegawaiTertua", gajiPegawaiTertua);
+        return"view-termuda-tertua";
+    }
 }
