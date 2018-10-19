@@ -26,7 +26,7 @@ public class PegawaiServiceImpl implements PegawaiService{
 	}
 	
 	@Override
-    public List<PegawaiModel> getAllPegawai(BigInteger idProvinsi, BigInteger idInstansi, BigInteger idJabatan) {
-        return pegawaiDb.findPegawaiByProvinsi(idProvinsi, idInstansi, idJabatan);
+    public List<PegawaiModel> getAllPegawai() {
+        return pegawaiDb.findAll();
     }
 }

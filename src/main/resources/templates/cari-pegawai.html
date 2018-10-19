@@ -26,27 +26,36 @@
 							<tr>
 								<td>Provinsi</td>
 								<td>
-									<select class="form-control" required name="provinsi" id="provinsi" th:value="${listProvinsi}">
-										<option>Pilih Provinsi</option>
-										<option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+									<select class="form-control" name="idProvinsi" id="selectprovinsi" onchange="document.getElementById('select').value='';filter(this.value)">
+										<option value="" selected>Pilih Provinsi</option>
+										<div th:each="provinsi : ${listProvinsi}">
+											<option th:if="${provinsi.id==idProvinsi}" selected th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+											<option th:unless="${provinsi.id==idProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+										</div>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td>Nama Instansi</td>
 								<td>
-									<select class="form-control" name="instansi" id="instansi">
-										<option disabled selected>Pilih Instansi</option>
-										<option th:each="instansi : ${listInstansi}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+									<select class="form-control" name="idInstansi" id="select">
+										<option value="" selected>Pilih Instansi</option>
+										<div th:each="instansi : ${listInstansi}" >
+									  		<option th:if="${instansi.id==idInstansi}" selected th:data-id-prov="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+									  		<option th:unless="${instansi.id==idInstansi}" th:data-id-prov="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+									  	</div>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td>Jabatan</td>
 								<td>
-									<select class="form-control" name="jabatan" id="jabatan">
-										<option disabled selected>Pilih Jabatan</option>
-										<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+									<select class="form-control" name="idJabatan" id="jabatan">
+										<option value="" selected>Pilih Jabatan</option>
+										<div th:each="jabatan : ${listJabatan}">
+											<option th:if="${jabatan.id==idJabatan}" selected th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+											<option th:unless="${jabatan.id==idJabatan}" th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+										</div>
 									</select>
 								</td>
 							</tr>
@@ -81,8 +90,14 @@
                                 <td th:text="${pegawai.tempat_lahir}"></td>
                                 <td th:text="${pegawai.tanggal_lahir}"></td>
                                 <td th:text="${pegawai.tahun_masuk}"></td>
-                                <td th:text="${hasilInstansi.nama}"></td>
-                                <td th:text="${hasilJabatan.nama}"></td>
+                                <td th:text="${pegawai.instansi.nama} + ' - '+${pegawai.instansi.provinsi.nama}"></td>
+                                <td>
+                                	<ul>
+						                <li th:each="jPegawai : ${pegawai.jabatan}">
+						                    <span th:text="${jPegawai.nama}"></span>
+						                </li>
+						            </ul>
+                                </td>
                             </tr>
                         </tbody>
 						</table>
@@ -94,25 +109,22 @@
 <br>
 
 <script>
-    $(document).ready(function() {
-        $('#hasilPegawai').DataTable();
-    } );
-    $('#provinsi').change(
-        function() {
-            $.getJSON("/provinsi/instansi", {
-                id : $(this).val(),
-                ajax : 'true'
-            }, function(data) {
-                var html = '<option value="">Pilih Instansi</option>';
-                var len = data.length;
-                for ( var i = 0; i < len; i++) {
-                    html += '<option value="' +data[i].id + '">'
-                        + data[i].nama + '</option>';
-                }
-                html += '</option>';
-                $('#instansi').html(html);
-            });
-        });
+	$(document).ready(function() {
+		$('#hasilPegawai').DataTable();
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		filter(document.getElementById("selectprovinsi").value);
+	});
+	function filter(keyword) {
+		var select = document.getElementById("select");
+		for (var i = 1; i < select.length; i++) {
+			var txt = select.options[i].getAttribute('data-id-prov');
+			var include = txt.startsWith(keyword);
+			select.options[i].style.display = include ? 'list-item' : 'none';
+		}
+	}
 </script>
 
 </body>

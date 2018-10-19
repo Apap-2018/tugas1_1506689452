@@ -7,6 +7,6 @@ import java.math.BigInteger;
 public interface PegawaiService {
 	PegawaiModel getPegawaiDetailByNIP(String nip);
 	void addPegawai(PegawaiModel pegawai);
-	List<PegawaiModel> getAllPegawai(BigInteger idProvinsi, BigInteger idInstansi, BigInteger idJabatan);
+	List<PegawaiModel> getAllPegawai();
 }
 
