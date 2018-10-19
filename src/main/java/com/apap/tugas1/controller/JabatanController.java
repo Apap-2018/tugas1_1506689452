@@ -2,6 +2,7 @@ package com.apap.tugas1.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigInteger;
 
 import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
@@ -38,7 +39,7 @@ public class JabatanController {
 	}
 	
 	@RequestMapping(value = "/jabatan/view", method = RequestMethod.GET)
-	private String viewJabatan(@RequestParam("id") Long id, Model model) {
+	private String viewJabatan(@RequestParam("id") BigInteger id, Model model) {
 		JabatanModel jabatan = jabatanService.getDetailById(id);
 		model.addAttribute("jabatan", jabatan);
 		return "view-jabatan";
@@ -52,7 +53,7 @@ public class JabatanController {
 	 }
 	
 	@RequestMapping(value = "/jabatan/ubah", method = RequestMethod.GET)
-    private String update(@RequestParam("id") Long id, Model model) {
+    private String update(@RequestParam("id") BigInteger id, Model model) {
 		JabatanModel jabatan = jabatanService.getDetailById(id);
 		model.addAttribute("jabatan", jabatan);
         return "update-jabatan";
@@ -67,12 +68,14 @@ public class JabatanController {
     }
     
     @RequestMapping(value = "/jabatan/hapus", method = RequestMethod.POST)
-	private String delete(@RequestParam(value = "id") Long id, Model model) {
-		try {
-			jabatanService.removeJabatan(id);
-			return "deleted";
-		} catch (Exception e) {
-			return "delete-fail";
-		}	
+	private String delete(@RequestParam(value = "id") BigInteger id, Model model) {
+    	JabatanModel jabatan = jabatanService.getDetailById(id);
+    	if (jabatan.getPegawai().isEmpty()) {
+    		jabatanService.removeJabatan(jabatan);
+    		return "deleted";
+    	}
+    	else {
+    		return "delete-fail";
+    	}	
 	}
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
+import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,11 +27,10 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "instansi")
-public class InstansiModel implements Serializable{
+public class InstansiModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
-	private long id;
+	private BigInteger id;
 	
 	@NotNull
 	@Size(max = 255)
@@ -43,6 +42,7 @@ public class InstansiModel implements Serializable{
 	@Column(name = "deskripsi", nullable = false)
 	private String deskripsi;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "instansi", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<PegawaiModel> instansi_pegawai;
 	
@@ -68,11 +68,11 @@ public class InstansiModel implements Serializable{
 		this.provinsi = provinsi;
 	}
 
-	public long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

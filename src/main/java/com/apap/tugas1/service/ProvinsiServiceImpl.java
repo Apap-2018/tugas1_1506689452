@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.math.BigInteger;
 
 
 @Service
@@ -16,8 +17,8 @@ public class ProvinsiServiceImpl implements ProvinsiService{
 	private ProvinsiDb provinsiDb;
 	
 	@Override
-	public ProvinsiModel getDetailById(Long id) {
-		return provinsiDb.getOne(id);
+	public ProvinsiModel getDetailById(BigInteger id) {
+		return provinsiDb.findById(id);
 	}
 	
 	@Override

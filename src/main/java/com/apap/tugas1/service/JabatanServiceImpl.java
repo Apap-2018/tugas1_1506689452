@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-
+import java.math.BigInteger;
 
 @Service
 @Transactional
@@ -21,8 +21,8 @@ public class JabatanServiceImpl implements JabatanService{
 	}
 	
 	@Override
-	public JabatanModel getDetailById(Long id) {
-		return jabatanDb.getOne(id);
+	public JabatanModel getDetailById(BigInteger id) {
+		return jabatanDb.findById(id);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class JabatanServiceImpl implements JabatanService{
 	
 	@Override
 	public void updateJabatan(JabatanModel jabatanModel) {
-		JabatanModel jabatan = jabatanDb.getOne(jabatanModel.getId());
+		JabatanModel jabatan = jabatanDb.findById(jabatanModel.getId());
 		jabatan.setNama(jabatanModel.getNama());
 		jabatan.setDeskripsi(jabatanModel.getDeskripsi());
 		jabatan.setGaji_pokok(jabatanModel.getGaji_pokok());
@@ -40,7 +40,7 @@ public class JabatanServiceImpl implements JabatanService{
 	}
 	
 	@Override
-	public void removeJabatan(Long id) {
-		jabatanDb.deleteById(id);
+	public void removeJabatan(JabatanModel jabatan) {
+		jabatanDb.delete(jabatan);
 	}
 }

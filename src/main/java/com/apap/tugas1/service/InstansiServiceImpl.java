@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.math.BigInteger;
 
 
 @Service
@@ -16,8 +17,8 @@ public class InstansiServiceImpl implements InstansiService{
 	private InstansiDb instansiDb;
 	
 	@Override
-	public InstansiModel getDetailById(Long id) {
-		return instansiDb.getOne(id);
+	public InstansiModel getDetailById(BigInteger id) {
+		return instansiDb.findById(id);
 	}
 	
 	@Override

@@ -10,9 +10,12 @@
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
-	<div align="center">
-		<h2>Gagal :(</h2>
-	    <p>Jabatan tidak bisa dihapus karena ada pegawai yang memiliki jabatan tersebut</p>
+	<br>
+	<div class="row justify-content-center">
+		<div class="alert alert-danger" role="alert">
+			<h2>Gagal :(</h2>
+		    <p>Jabatan tidak bisa dihapus karena ada pegawai yang memiliki jabatan tersebut</p>
+		</div>
     </div>
 </body>
 </html>

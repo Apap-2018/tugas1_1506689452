@@ -6,6 +6,8 @@ import com.apap.tugas1.model.PegawaiModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.math.BigInteger;
 
 @Service
 @Transactional
@@ -16,5 +18,15 @@ public class PegawaiServiceImpl implements PegawaiService{
 	@Override
     public PegawaiModel getPegawaiDetailByNIP(String nip){
         return  pegawaiDb.findByNip(nip);
+    }
+	
+	@Override
+	public void addPegawai(PegawaiModel pegawai){
+		pegawaiDb.save(pegawai);
+	}
+	
+	@Override
+    public List<PegawaiModel> getAllPegawai(BigInteger idProvinsi, BigInteger idInstansi, BigInteger idJabatan) {
+        return pegawaiDb.findPegawaiByProvinsi(idProvinsi, idInstansi, idJabatan);
     }
 }
