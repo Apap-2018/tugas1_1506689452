@@ -160,7 +160,7 @@ public class PegawaiController {
 	@RequestMapping(value = "/pegawai/tambah", method = RequestMethod.GET)
 	public String addPegawai(Model model) {
 		PegawaiModel pegawai = new PegawaiModel();
-		pegawai.setJabatan(new ArrayList<JabatanModel>());
+		pegawai.setJabatanList(new ArrayList<JabatanModel>());
 		pegawai.getJabatanList().add(new JabatanModel());
 		model.addAttribute("pegawai", pegawai);
 		
@@ -173,7 +173,7 @@ public class PegawaiController {
 		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
 		model.addAttribute("listJabatan", listJabatan);
 		
-		return "add-pegawai";
+		return "tambah-pegawai";
 	}
 	
 	@RequestMapping(value = "/pegawai/tambah", params= {"submitPegawai"}, method = RequestMethod.POST)
@@ -195,25 +195,20 @@ public class PegawaiController {
 			}
 		}
 		nip += "0" + temp;
-
-		for (JabatanModel jabatan : pegawai.getJabatanList()) {
-			System.out.println(jabatan.getNama());
-		}
+		
 		pegawai.setNip(nip);
 		pegawaiService.addPegawai(pegawai);
 		redirectAttrs.addFlashAttribute("message", "Pegawai dengan NIP "+ nip + " berhasil ditambahkan");
-//		return "redirect:/pegawai/tambah";
-		return "add";
+		return "redirect:/pegawai?nip="+pegawai.getNip();
     }
 	
 	@RequestMapping(value = "/pegawai/tambah", params= {"addRow"})
-    public String addRowJabatan(@ModelAttribute PegawaiModel pegawai, BindingResult bindingResult, Model model) {
+    public String addRowJabatan(final PegawaiModel pegawai, final BindingResult bindingResult, Model model) {
 		if (pegawai.getJabatanList() == null) {
-			pegawai.setJabatan(new ArrayList<JabatanModel>());
+			pegawai.setJabatanList(new ArrayList<JabatanModel>());
 		}
 		pegawai.getJabatanList().add(new JabatanModel());
     	model.addAttribute("pegawai", pegawai);
-    	System.out.println(pegawai.getJabatanList().size());
     	
     	List<ProvinsiModel> listProvinsi = provinsiService.getAllProvinsi();
 		model.addAttribute("listProvinsi", listProvinsi);
@@ -223,13 +218,15 @@ public class PegawaiController {
 		
 		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
 		model.addAttribute("listJabatan", listJabatan);
-		return "add-pegawai";
+		return "tambah-pegawai";
     }
 	
-	@RequestMapping(value="/pegawai/tambah",params= {"removeRow"})
-	public String deleteRowJabatan(@ModelAttribute PegawaiModel pegawai,BindingResult bindingResult, Model model, HttpServletRequest req) {
-		final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
-	    pegawai.getJabatanList().remove(rowId.intValue());
+	@RequestMapping(value="/pegawai/tambah", params= {"removeRow"})
+	public String removeRowJabatan(
+			final PegawaiModel pegawai, final BindingResult bindingResult, 
+			final HttpServletRequest req, Model model) {
+		final int rowId = Integer.valueOf(req.getParameter("removeRow"));
+	    pegawai.getJabatanList().remove(rowId);
 	    model.addAttribute("pegawai", pegawai);
 	    
 	    List<ProvinsiModel> listProvinsi = provinsiService.getAllProvinsi();
@@ -240,6 +237,6 @@ public class PegawaiController {
 		
 		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
 		model.addAttribute("listJabatan", listJabatan);
-		return "add-pegawai";
+		return "tambah-pegawai";
 	}
 }

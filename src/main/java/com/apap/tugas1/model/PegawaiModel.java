@@ -83,7 +83,7 @@ public class PegawaiModel implements Serializable {
 		return jabatanList;
 	}
 
-	public void setJabatan(List<JabatanModel> jabatanList) {
+	public void setJabatanList(List<JabatanModel> jabatanList) {
 		this.jabatanList = jabatanList;
 	}
 
