@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+	<title>Ubah Pegawai</title>
+	<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<div align="center">
+	<form th:action="@{/pegawai/ubah}" th:object="${pegawai}" method="POST">
+	<input type="hidden" name="id" th:value="${pegawai.id}" />
+	<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Tambah Pegawai</h3>
+                </div>
+                <div class="card-body">
+                <div class="form-group">
+                	Nama <br>
+                	<input required type="text" name="nama" th:field="*{nama}" class="form-control" th:value="${pegawai.nama}"/>
+                	<br>
+                	Tempat Lahir <br>
+                	<input required type="text" name="tempat_lahir" th:field="*{tempat_lahir}" class="form-control" th:value="${pegawai.tempat_lahir}"/>
+                	<br>
+                	Tanggal Lahir <br>
+                	<input required type="date" name="tanggal_lahir" th:field="*{tanggal_lahir}" class="form-control" th:value="${pegawai.tanggal_lahir}"/>
+                	<br>
+                	Tahun Masuk <br>
+                	<input required type="number" name="tahun_masuk" th:field="*{tahun_masuk}" class="form-control" th:value="${pegawai.tahun_masuk}"/>
+                	<br>
+                	Provinsi <br>
+                	<select class="form-control" required name="provinsi" id="provinsi" onchange="filter(this.value)">
+						<option value="">-</option>
+						<option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id}" th:selected="${provinsi.id == pegawai.instansi.provinsi.id}" th:text="${provinsi.nama}"></option>
+					</select>
+                	<br>
+                	Nama Instansi <br>
+                	<select class="form-control" required name="instansi" id="instansi" th:field="*{instansi}">
+						<option value="">-</option>
+						<option th:data-id-provinsi="${instansi.provinsi.id}" th:each="instansi : ${listInstansi}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}" th:selected="${instansi.id == pegawai.instansi.id}"></option>
+					</select>
+                	<br>
+                	Jabatan <br>
+                	<table>
+						<tr th:each="jabatan, iterationStatus : *{jabatanList}">
+							<td>
+								<select class="form-control" required name="jabatan" id="jabatan" th:field="*{jabatanList[__${iterationStatus.index}__]}">
+									<option th:each="jab : ${listJabatan}" th:text="${jab.nama}" th:value="${jab.id}"></option>
+								</select>
+							</td>
+							<td th:unless="${iterationStatus.size} <= 1">
+								<button class="btn btn-danger" th:value="${iterationStatus.index}" type="submit" name="removeRow" formnovalidate>Remove</button>
+							</td>
+						</tr>
+					</table>
+					<br>
+					<button class="btn btn-secondary" type="submit" name="addRow" formnovalidate>Tambah Jabatan Lainnya</button>
+                	<br>
+                	</div>
+                	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<br>
+	<button type="submit" class="btn btn-primary" name="submitPegawai">Simpan</button>
+	</form>
+	<br>
+	</div>
+</body>
+<script>
+	$(document).ready(function() {
+		filter(document.getElementById("provinsi").value);
+	});
+	function filter(keyword) {
+		var select = document.getElementById("instansi");
+		for (var i = 1; i < select.length; i++) {
+			var txt = select.options[i].getAttribute('data-id-provinsi');
+			var include = txt.startsWith(keyword);
+			select.options[i].style.display = include ? 'list-item' : 'none';
+		}
+	}
+</script>
+</html>
+

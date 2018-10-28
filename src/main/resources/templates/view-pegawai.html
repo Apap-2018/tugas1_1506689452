@@ -68,8 +68,8 @@
 	</div>
 	</div>
 	<br>
-	<form>
-			<button type="submit" class="btn btn-primary">Ubah</button>
+	<form th:action="@{/pegawai/ubah}" method="GET">
+			<button type="submit" class="btn btn-primary" name="nip" th:value="${pegawai.nip}">Ubah</button>
 	</form>
 	<br>
 	</div>

@@ -239,4 +239,85 @@ public class PegawaiController {
 		model.addAttribute("listJabatan", listJabatan);
 		return "tambah-pegawai";
 	}
+	
+	@RequestMapping(value = "/pegawai/ubah", method = RequestMethod.GET)
+	public String updatePegawai(@RequestParam(value = "nip", required = true) String nip, Model model) {
+		PegawaiModel pegawai = pegawaiService.getPegawaiDetailByNIP(nip);
+		model.addAttribute("pegawai", pegawai);
+		
+		List<ProvinsiModel> listProvinsi = provinsiService.getAllProvinsi();
+		model.addAttribute("listProvinsi", listProvinsi);
+		
+		List<InstansiModel> listInstansi = instansiService.getAllInstansi();
+		model.addAttribute("listInstansi", listInstansi);
+		
+		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
+		model.addAttribute("listJabatan", listJabatan);
+		
+		return "update-pegawai";
+	}
+	
+	@RequestMapping(value = "/pegawai/ubah", params= {"submitPegawai"}, method = RequestMethod.POST)
+    public String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai,Model model, BindingResult result, RedirectAttributes redirectAttrs) {
+		String nip = "";
+		
+		nip += pegawai.getInstansi().getId();
+		
+		String[] tanggalLahir = pegawai.getTanggal_lahir().toString().split("-");
+		String tanggalLahirStr = tanggalLahir[2] + tanggalLahir[1] + tanggalLahir[0].substring(2, 4);
+		nip += tanggalLahirStr;
+		
+		nip += pegawai.getTahun_masuk();
+		
+		int temp = 1;
+		for (PegawaiModel peg : pegawai.getInstansi().getInstansi_pegawai()) {
+			if (peg.getTahun_masuk().equals(pegawai.getTahun_masuk()) && peg.getTanggal_lahir().equals(pegawai.getTanggal_lahir())) {
+				temp += 1;
+			}
+		}
+		nip += "0" + temp;
+		
+		pegawai.setNip(nip);
+		pegawaiService.addPegawai(pegawai);
+		redirectAttrs.addFlashAttribute("message", "Pegawai dengan NIP "+ nip + " berhasil diubah");
+		return "redirect:/pegawai?nip="+pegawai.getNip();
+    }
+	
+	@RequestMapping(value = "/pegawai/ubah", params= {"addRow"})
+    public String updateRowJabatan(final PegawaiModel pegawai, final BindingResult bindingResult, Model model) {
+		if (pegawai.getJabatanList() == null) {
+			pegawai.setJabatanList(new ArrayList<JabatanModel>());
+		}
+		pegawai.getJabatanList().add(new JabatanModel());
+    	model.addAttribute("pegawai", pegawai);
+    	
+    	List<ProvinsiModel> listProvinsi = provinsiService.getAllProvinsi();
+		model.addAttribute("listProvinsi", listProvinsi);
+		
+		List<InstansiModel> listInstansi = instansiService.getAllInstansi();
+		model.addAttribute("listInstansi", listInstansi);
+		
+		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
+		model.addAttribute("listJabatan", listJabatan);
+		return "update-pegawai";
+    }
+	
+	@RequestMapping(value="/pegawai/ubah", params= {"removeRow"})
+	public String removeJabatan(
+			final PegawaiModel pegawai, final BindingResult bindingResult, 
+			final HttpServletRequest req, Model model) {
+		final int rowId = Integer.valueOf(req.getParameter("removeRow"));
+	    pegawai.getJabatanList().remove(rowId);
+	    model.addAttribute("pegawai", pegawai);
+	    
+	    List<ProvinsiModel> listProvinsi = provinsiService.getAllProvinsi();
+		model.addAttribute("listProvinsi", listProvinsi);
+		
+		List<InstansiModel> listInstansi = instansiService.getAllInstansi();
+		model.addAttribute("listInstansi", listInstansi);
+		
+		List<JabatanModel> listJabatan = jabatanService.getAllJabatan();
+		model.addAttribute("listJabatan", listJabatan);
+		return "update-pegawai";
+	}
 }
