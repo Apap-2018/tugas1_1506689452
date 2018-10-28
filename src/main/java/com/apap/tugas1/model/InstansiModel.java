@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
-import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class InstansiModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private BigInteger id;
+	private long id;
 	
 	@NotNull
 	@Size(max = 255)
@@ -68,11 +67,11 @@ public class InstansiModel implements Serializable {
 		this.provinsi = provinsi;
 	}
 
-	public BigInteger getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

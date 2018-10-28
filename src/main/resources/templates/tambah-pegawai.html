@@ -12,11 +12,10 @@
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
-<div align="center">
 	<br>
 	<p th:text="${message}"></p>
 	<br>
-	<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
+	<!-- 
 	<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -25,90 +24,114 @@
                     <h3>Tambah Pegawai</h3>
                 </div>
                 <div class="card-body">
-	<table class="table table-striped table-bordered" style="width:100%">
-		<tr>
-			<td>Nama</td>
-			<td><input required type="text" name="nama" class="form-control" /></td>
-		</tr>
-		<tr>
-			<td>Tempat Lahir</td>
-			<td><input required type="text" name="tempat_lahir" class="form-control" /></td>
-		</tr>
-		<tr>
-			<td>Tanggal Lahir</td>
-			<td><input required type="date" name="tanggal_lahir" class="form-control" /></td>
-		</tr>
-		<tr>
-			<td>Tahun Masuk</td>
-			<td><input required type="number" name="tahun_masuk" class="form-control" /></td>
-		</tr>
-		<tr>
-			<td>Provinsi</td>
-			<td>
-				<select class="form-control" required name="provinsi" id="provinsi">
-					<option>-</option>
-					<option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Instansi</td>
-			<td>
-				<select class="form-control" required name="instansi" id="instansi" th:value="instansi">
-					<option disabled selected>-</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Jabatan</td>
-			<td>
-				<select class="form-control" required name="jabatan" id="jabatan">
-					<option value="">-</option>
-					<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
-				</select>
-			</td>
-		</tr>
-	</table>
+                <form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
+                <div class="form-group">
+                	Nama <br>
+                	<input required type="text" name="nama" th:field="*{nama}" class="form-control" />
+                	<br>
+                	Tempat Lahir <br>
+                	<input required type="text" name="tempat_lahir" th:field="*{tempat_lahir}" class="form-control" />
+                	<br>
+                	Tanggal Lahir <br>
+                	<input required type="date" name="tanggal_lahir" th:field="*{tanggal_lahir}" class="form-control" />
+                	<br>
+                	Tahun Masuk <br>
+                	<input required type="number" name="tahun_masuk" th:field="*{tahun_masuk}" class="form-control" />
+                	<br>
+                	Provinsi <br>
+                	<select class="form-control" required name="provinsi" id="provinsi" onchange="filter(this.value)">
+						<option value="">-</option>
+						<option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+					</select>
+                	<br>
+                	Nama Instansi <br>
+                	<select class="form-control" required name="instansi" id="instansi" th:field="*{instansi}">
+						<option value="" disabled selected>-</option>
+						<option th:data-id-provinsi="${instansi.provinsi.id}" th:each="instansi : ${listInstansi}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+					</select>
+                	<br>
+                	Jabatan <br>
+                	<table>
+						<tr th:each="jabatan, iterationStatus : *{allJabatan}">
+							<td>
+								<select class="form-control" required name="jabatan" id="jabatan" th:field="*{allJabatan[__${iterationStatus.index}__]}">
+									<option th:each="jab : ${listJabatan}" th:text="${jab.nama}" th:value="${jab.id}"></option>
+								</select>
+							</td>
+							<td>
+								<button class="btn btn-danger" th:value="${iterationStatus.index}" type="submit" name="removeRow">Remove</button>
+							</td>
+						</tr>
+					</table>
+					<button class="btn btn-secondary" type="submit" name="addRow">Tambah Jabatan Lainnya</button>
+                	<br>
+                	<button type="submit" class="btn btn-primary" name="submitPegawai">Simpan</button>
+                	</form>
+                	</div>
 	</div>
 	</div>
 	</div>
 	</div>
-	</div>
-		<br>
-		<button type="submit" class="btn btn-primary">Simpan</button>
-	</form>
-	<br>
-	</div>
+	 -->
+	<div class="container-fluid">
+			<div class="card">
+				<div class="card-header">
+					<h3>Tambah Pegawai</h3>
+				</div>
+				<div class="card-body">
+					<form th:action="@{/pegawai/tambah}" th:object="${pegawai}" method="POST">
+        <input type="text" name="nama"/>
+        <input type="text" name="tempatLahir"/>
+        <input type="date" name="tanggalLahir"/>
+        <input type="number" name="tahunMasuk"/>
+        <select id="provinsi" name="Provinsi">
+            <option th:each="i : ${listProvinsi}" th:value="${i.nama}" th:text="${i.nama}">
+            </option>
+        </select>
+        <select id="namaInstansi" name="instansi">
+            <option th:each="i : ${listInstansi}" th:value="${i.id}" th:text="${i.nama}+' - '+${i.provinsi.nama}">
+            </option>
+        </select>
+        <div class="jabatans" id="jabatan">
+            <select id="jabatan0" name="jabatanPegawaiModelList[0].jabatan">
+                <option th:each="i : ${listJabatan}" th:value="${i.id}" th:text="${i.nama}">
+                </option>
+            </select>
+        </div>
+        <button type="button" id="tambahJabatanButton">Tambah Jabatan</button>
+        <button type="submit">Simpan</button>
+    </form>
+					</div>
+				</div>
+			</div>
 
-<script>
-    $('#provinsi').change(
-        function() {
-            $.getJSON("http://localhost:8080/provinsi/instansi", {
-                idProvinsi : $(this).val(),
-                ajax : 'true'
-            }, function(data) {
-                var html = '<option>-</option>';
-                var len = data.length;
-                for ( var i = 0; i < len; i++) {
-                    html += '<option value="' + data[i].id + '" + th:text="'+ data[i].nama'">'
-                            + data[i].nama + '</option>';
-                }
-                $('#instansi').html(html);
-            });
-        });
-    
-    $('#instansi').change(
-			function(){
-				$.getJSON("/instansi", {
-	                idInstansi : $(this).val(),
-	                ajax : 'true'
-	            },
-	            function(data) {
-	                this.value = data;
-	            });
-			});
-</script>
+
 
 </body>
+<script>
+$(document).ready(function() {
+    $('#provinsi').change(
+        function() {
+            $.getJSON("http://localhost:8080/instansi", {
+                namaProvinsi : $(this).val(),
+                ajax : 'true'
+            }, function(data) {
+                var html = '';
+                var len = data.length;
+                for ( var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id + '">'
+                        + data[i].nama + '</option>';
+                }
+                html += '</option>';
+                $('#namaInstansi').html(html);
+            });
+        });
+    var idJabatan = 1;
+    $('#tambahJabatanButton').click(function () {
+        $('#jabatan0').clone().attr("id","jabatan"+idJabatan).attr("name","jabatanPegawaiModelList["+idJabatan+"].jabatan").appendTo('.jabatans');
+        idJabatan+=1;
+    });
+});
+</script>
 </html>
 

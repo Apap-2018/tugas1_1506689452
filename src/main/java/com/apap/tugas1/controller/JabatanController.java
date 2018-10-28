@@ -1,11 +1,8 @@
 package com.apap.tugas1.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.math.BigInteger;
 
 import com.apap.tugas1.model.JabatanModel;
-import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.service.JabatanService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -39,7 +34,7 @@ public class JabatanController {
 	}
 	
 	@RequestMapping(value = "/jabatan/view", method = RequestMethod.GET)
-	private String viewJabatan(@RequestParam("id") BigInteger id, Model model) {
+	private String viewJabatan(@RequestParam("id") long id, Model model) {
 		JabatanModel jabatan = jabatanService.getDetailById(id);
 		model.addAttribute("jabatan", jabatan);
 		return "view-jabatan";
@@ -53,7 +48,7 @@ public class JabatanController {
 	 }
 	
 	@RequestMapping(value = "/jabatan/ubah", method = RequestMethod.GET)
-    private String update(@RequestParam("id") BigInteger id, Model model) {
+    private String update(@RequestParam("id") long id, Model model) {
 		JabatanModel jabatan = jabatanService.getDetailById(id);
 		model.addAttribute("jabatan", jabatan);
         return "update-jabatan";
@@ -68,7 +63,7 @@ public class JabatanController {
     }
     
     @RequestMapping(value = "/jabatan/hapus", method = RequestMethod.POST)
-	private String delete(@RequestParam(value = "id") BigInteger id, Model model) {
+	private String delete(@RequestParam(value = "id") long id, Model model) {
     	JabatanModel jabatan = jabatanService.getDetailById(id);
     	if (jabatan.getPegawai().isEmpty()) {
     		jabatanService.removeJabatan(jabatan);

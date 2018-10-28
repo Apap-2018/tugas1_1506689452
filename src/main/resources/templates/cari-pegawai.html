@@ -26,11 +26,11 @@
 							<tr>
 								<td>Provinsi</td>
 								<td>
-									<select class="form-control" name="idProvinsi" id="selectprovinsi" onchange="document.getElementById('select').value='';filter(this.value)">
+									<select class="form-control" name="idProvinsi" id="provinsi" onchange="document.getElementById('instansi').value='';filter(this.value)">
 										<option value="" selected>Pilih Provinsi</option>
 										<div th:each="provinsi : ${listProvinsi}">
-											<option th:if="${provinsi.id==idProvinsi}" selected th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
-											<option th:unless="${provinsi.id==idProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+											<option th:if="${provinsi.id == idProvinsi}" selected th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
+											<option th:unless="${provinsi.id == idProvinsi}" th:value="${provinsi.id}" th:text="${provinsi.nama}"></option>
 										</div>
 									</select>
 								</td>
@@ -38,11 +38,11 @@
 							<tr>
 								<td>Nama Instansi</td>
 								<td>
-									<select class="form-control" name="idInstansi" id="select">
+									<select class="form-control" name="idInstansi" id="instansi">
 										<option value="" selected>Pilih Instansi</option>
 										<div th:each="instansi : ${listInstansi}" >
-									  		<option th:if="${instansi.id==idInstansi}" selected th:data-id-prov="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
-									  		<option th:unless="${instansi.id==idInstansi}" th:data-id-prov="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+									  		<option th:if="${instansi.id == idInstansi}" selected th:data-id-provinsi="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
+									  		<option th:unless="${instansi.id == idInstansi}" th:data-id-provinsi="${instansi.provinsi.id}" th:value="${instansi.id}" th:text="${instansi.nama}+' - '+${instansi.provinsi.nama}"></option>
 									  	</div>
 									</select>
 								</td>
@@ -53,8 +53,8 @@
 									<select class="form-control" name="idJabatan" id="jabatan">
 										<option value="" selected>Pilih Jabatan</option>
 										<div th:each="jabatan : ${listJabatan}">
-											<option th:if="${jabatan.id==idJabatan}" selected th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
-											<option th:unless="${jabatan.id==idJabatan}" th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+											<option th:if="${jabatan.id == idJabatan}" selected th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
+											<option th:unless="${jabatan.id == idJabatan}" th:text="${jabatan.nama}" th:value="${jabatan.id}"></option>
 										</div>
 									</select>
 								</td>
@@ -93,7 +93,7 @@
                                 <td th:text="${pegawai.instansi.nama} + ' - '+${pegawai.instansi.provinsi.nama}"></td>
                                 <td>
                                 	<ul>
-						                <li th:each="jPegawai : ${pegawai.jabatan}">
+						                <li th:each="jPegawai : ${pegawai.jabatanList}">
 						                    <span th:text="${jPegawai.nama}"></span>
 						                </li>
 						            </ul>
@@ -112,15 +112,14 @@
 	$(document).ready(function() {
 		$('#hasilPegawai').DataTable();
 	});
-</script>
-<script>
+	
 	$(document).ready(function() {
-		filter(document.getElementById("selectprovinsi").value);
+		filter(document.getElementById("provinsi").value);
 	});
 	function filter(keyword) {
-		var select = document.getElementById("select");
+		var select = document.getElementById("instansi");
 		for (var i = 1; i < select.length; i++) {
-			var txt = select.options[i].getAttribute('data-id-prov');
+			var txt = select.options[i].getAttribute('data-id-provinsi');
 			var include = txt.startsWith(keyword);
 			select.options[i].style.display = include ? 'list-item' : 'none';
 		}

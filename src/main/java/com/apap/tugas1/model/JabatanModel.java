@@ -2,7 +2,6 @@ package com.apap.tugas1.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class JabatanModel implements Serializable, Comparable<JabatanModel> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private BigInteger id;
+	private long id;
 	
 	@NotNull
 	@Size(max = 255)
@@ -45,7 +44,7 @@ public class JabatanModel implements Serializable, Comparable<JabatanModel> {
                 CascadeType.PERSIST,
                 CascadeType.MERGE
             },
-            mappedBy = "jabatan")
+            mappedBy = "jabatanList")
     private List<PegawaiModel> pegawai;
 	
 	public List<PegawaiModel> getPegawai() {
@@ -62,11 +61,11 @@ public class JabatanModel implements Serializable, Comparable<JabatanModel> {
 		return compare;
 	}
 
-	public BigInteger getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

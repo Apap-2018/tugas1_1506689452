@@ -1,7 +1,6 @@
 package com.apap.tugas1.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import javax.persistence.*;
 
 @Entity
@@ -9,13 +8,13 @@ import javax.persistence.*;
 public class JabatanPegawaiModel implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private BigInteger id;
+	private long id;
 
-	public BigInteger getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 }
